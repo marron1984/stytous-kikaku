@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staytous Brand Book</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --navy: #1a2744;
+    --navy-light: #2c3e5a;
+    --gray-text: #4a4a4a;
+    --gray-light: #8a8a8a;
+    --gray-line: #c8c8c8;
+    --bg: #f8f7f5;
+    --white: #ffffff;
+    --accent: #3a4f7a;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Noto Serif JP', 'Georgia', serif;
+    background: #e8e6e2;
+    color: var(--gray-text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: var(--bg);
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* =========================================
+     PAGE 1 — Cover
+     ========================================= */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 25mm;
+    text-align: center;
+  }
+
+  .cover-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52pt;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.04em;
+    margin-bottom: 48px;
+  }
+
+  .cover-line {
+    width: 64px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 48px;
+  }
+
+  .cover-tagline {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 2.2;
+    letter-spacing: 0.18em;
+  }
+
+  .cover-sub {
+    position: absolute;
+    bottom: 32mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 7.5pt;
+    color: var(--gray-light);
+    letter-spacing: 0.12em;
+  }
+
+  /* =========================================
+     PAGE 2 — Philosophy
+     ========================================= */
+  .philosophy {
+    padding: 36mm 28mm 28mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .philosophy-header {
+    margin-bottom: 56px;
+  }
+
+  .philosophy-header .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8pt;
+    color: var(--gray-light);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .philosophy-header h2 {
+    font-size: 28pt;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+  }
+
+  .philosophy-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 48px;
+  }
+
+  .philosophy-body {
+    max-width: 380px;
+  }
+
+  .philosophy-body .lead {
+    font-size: 14pt;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 2;
+    letter-spacing: 0.1em;
+    margin-bottom: 40px;
+  }
+
+  .philosophy-body .desc {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-text);
+    line-height: 2.2;
+    letter-spacing: 0.06em;
+  }
+
+  /* =========================================
+     PAGE 3 — ZEN
+     ========================================= */
+  .section-page {
+    padding: 32mm 28mm 28mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8pt;
+    color: var(--gray-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+
+  .section-title-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36pt;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+
+  .section-title-ja {
+    font-size: 16pt;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.16em;
+    margin-bottom: 24px;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 40px;
+  }
+
+  .section-content {
+    display: flex;
+    gap: 32px;
+    flex: 1;
+  }
+
+  .section-text {
+    flex: 1;
+    padding-top: 4px;
+  }
+
+  .section-text p {
+    font-size: 9.5pt;
+    font-weight: 300;
+    color: var(--gray-text);
+    line-height: 2.2;
+    letter-spacing: 0.06em;
+  }
+
+  .section-visual {
+    width: 220px;
+    height: 220px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #efedea;
+    border-radius: 0;
+  }
+
+  .section-visual svg {
+    display: block;
+  }
+
+  /* =========================================
+     PAGE 4 — Chado
+     ========================================= */
+
+  /* =========================================
+     PAGE 5 — Hakudo
+     ========================================= */
+  .hakudo-visual {
+    background: #efedea;
+    position: relative;
+  }
+
+  .hakudo-window {
+    width: 56px;
+    height: 96px;
+    background: linear-gradient(180deg, #d4a54a 0%, #c48830 50%, #8b5e20 100%);
+    border: 2px solid var(--navy);
+    position: relative;
+  }
+
+  .hakudo-figure {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 28px;
+    border-radius: 50% 50% 0 0;
+    background: rgba(0,0,0,0.25);
+  }
+
+  /* =========================================
+     PAGE 6 — Pulsing Place
+     ========================================= */
+  .pulse-keywords {
+    display: flex;
+    gap: 24px;
+    margin-top: 56px;
+    align-items: center;
+  }
+
+  .pulse-keywords .kw {
+    font-size: 10pt;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+  }
+
+  .pulse-keywords .sep {
+    width: 1px;
+    height: 14px;
+    background: var(--gray-line);
+  }
+
+  /* =========================================
+     PAGE 7 — Closing
+     ========================================= */
+  .closing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 32mm;
+    text-align: center;
+  }
+
+  .closing-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38pt;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.04em;
+    margin-bottom: 40px;
+  }
+
+  .closing-line {
+    width: 48px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 40px;
+  }
+
+  .closing-tagline {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 2.2;
+    letter-spacing: 0.18em;
+    margin-bottom: 56px;
+  }
+
+  .closing-body {
+    font-size: 8.5pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    line-height: 2;
+    letter-spacing: 0.04em;
+    max-width: 440px;
+  }
+
+  .closing-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gray-line);
+    margin: 48px auto 0;
+  }
+</style>
+</head>
+<body>
+
+
+<!-- ============ PAGE 1: COVER ============ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-brand">Staytous</div>
+    <div class="cover-line"></div>
+    <div class="cover-tagline">
+      場を整える。<br>
+      宿泊者が整う。
+    </div>
+  </div>
+  <div class="cover-sub">Brand Book</div>
+</div>
+
+
+<!-- ============ PAGE 2: PHILOSOPHY ============ -->
+<div class="page">
+  <div class="philosophy">
+    <div class="philosophy-header">
+      <div class="label">Philosophy</div>
+      <h2>思想</h2>
+    </div>
+    <div class="philosophy-divider"></div>
+    <div class="philosophy-body">
+      <div class="lead">
+        場を整える。<br>
+        宿泊者が整う。
+      </div>
+      <p class="desc">
+        Staytousの思想はシンプルである。<br>
+        私たちはホテルをつくるのではない。<br>
+        体験が生まれる場を整える。
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 3: ZEN ============ -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">01</div>
+    <div class="section-title-en">ZEN</div>
+    <div class="section-title-ja">禅</div>
+    <div class="section-divider"></div>
+    <div class="section-content">
+      <div class="section-text">
+        <p>
+          禅は、心を整える文化である。<br><br>
+          静かな空間の中で呼吸を整え、<br>
+          自分の内側と向き合う。<br><br>
+          整えられた場は<br>
+          人の意識を静かに整える。
+        </p>
+      </div>
+      <div class="section-visual">
+        <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70" cy="70" r="68" stroke="#1a2744" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 4: CHADO ============ -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">02</div>
+    <div class="section-title-en" style="font-style: italic;">Chado</div>
+    <div class="section-title-ja">茶道</div>
+    <div class="section-divider"></div>
+    <div class="section-content">
+      <div class="section-text">
+        <p>
+          茶道は、場を整える文化である。<br><br>
+          床の間、花、道具、所作。<br>
+          すべてが整えられた場の中で<br>
+          一杯の茶が生まれる。<br><br>
+          整えられた場が人の時間を整える。
+        </p>
+      </div>
+      <div class="section-visual">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="118" height="118" stroke="#1a2744" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 5: HAKUDO ============ -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">03</div>
+    <div class="section-title-en" style="font-style: italic;">Haku-do</div>
+    <div class="section-title-ja">泊道</div>
+    <div class="section-divider"></div>
+    <div class="section-content">
+      <div class="section-text">
+        <p>
+          Staytousが提案するのは<br>
+          新しい文化、泊道（Hakudo）である。<br><br>
+          泊まることはただ眠ることではない。<br>
+          整えられた場に身を置き、<br>
+          都市の空気を感じ、<br>
+          その土地の時間に身を委ねる。<br><br>
+          そのとき宿泊者は静かに整っていく。<br><br>
+          泊まることは自分を整える時間である。
+        </p>
+      </div>
+      <div class="section-visual hakudo-visual">
+        <div class="hakudo-window">
+          <div class="hakudo-figure"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 6: PULSING PLACE ============ -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">04</div>
+    <div class="section-title-ja" style="font-size: 28pt; letter-spacing: 0.12em; margin-bottom: 24px;">拍動する場</div>
+    <div class="section-divider"></div>
+    <div class="section-text" style="max-width: 420px;">
+      <p>
+        整えられた場の中で<br>
+        人が呼吸し、語らい、杯を交わす。<br><br>
+        そのとき場は静かに拍動し始める。<br><br>
+        人、文化、都市。<br>
+        それぞれのリズムが重なり、<br>
+        一つの場として生き始める。
+      </p>
+    </div>
+    <div class="pulse-keywords">
+      <span class="kw">人</span>
+      <span class="sep"></span>
+      <span class="kw">文化</span>
+      <span class="sep"></span>
+      <span class="kw">都市</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 7: CLOSING ============ -->
+<div class="page">
+  <div class="closing">
+    <div class="closing-brand">Staytous</div>
+    <div class="closing-line"></div>
+    <div class="closing-tagline">
+      場を整える。<br>
+      宿泊者が整う。
+    </div>
+    <p class="closing-body">
+      禅、茶道、そして泊道。<br>
+      整えられた場の中で、人は都市の空気とともに呼吸する。<br>
+      Staytousは泊まるという文化を整えるブランドである。
+    </p>
+    <div class="closing-dot"></div>
+  </div>
+</div>
+
+
+</body>
+</html>
