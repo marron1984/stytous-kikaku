@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Staytous Brand Book</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700&display=swap');
 
   *, *::before, *::after {
     margin: 0;
@@ -14,14 +14,14 @@
   }
 
   :root {
-    --navy: #1a2744;
-    --navy-light: #2c3e5a;
-    --gray-text: #4a4a4a;
-    --gray-light: #8a8a8a;
-    --gray-line: #c8c8c8;
-    --bg: #f8f7f5;
+    --sumi: #222222;
+    --sumi-light: #3a3a3a;
+    --gray-text: #444444;
+    --gray-light: #999999;
+    --gray-line: #d0d0d0;
+    --bg: #f9f8f6;
     --white: #ffffff;
-    --accent: #3a4f7a;
+    --accent: #444444;
   }
 
   @page {
@@ -30,7 +30,7 @@
   }
 
   body {
-    font-family: 'Noto Serif JP', 'Georgia', serif;
+    font-family: 'Noto Serif JP', serif;
     background: #e8e6e2;
     color: var(--gray-text);
     -webkit-font-smoothing: antialiased;
@@ -66,11 +66,11 @@
   }
 
   .cover-brand {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Noto Serif JP', serif;
     font-size: 68pt;
-    font-weight: 600;
-    color: var(--navy);
-    letter-spacing: 0.04em;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
     margin-bottom: 48px;
   }
 
@@ -83,8 +83,8 @@
 
   .cover-tagline {
     font-size: 16pt;
-    font-weight: 400;
-    color: var(--navy);
+    font-weight: 300;
+    color: var(--sumi);
     line-height: 2.4;
     letter-spacing: 0.22em;
   }
@@ -115,8 +115,9 @@
   }
 
   .philosophy-header .label {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Noto Serif JP', serif;
     font-size: 10pt;
+    font-weight: 300;
     color: var(--gray-light);
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -125,9 +126,9 @@
 
   .philosophy-header h2 {
     font-size: 36pt;
-    font-weight: 600;
-    color: var(--navy);
-    letter-spacing: 0.08em;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
     line-height: 1.4;
   }
 
@@ -144,19 +145,19 @@
 
   .philosophy-body .lead {
     font-size: 20pt;
-    font-weight: 500;
-    color: var(--navy);
+    font-weight: 400;
+    color: var(--sumi);
     line-height: 2.2;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     margin-bottom: 48px;
   }
 
   .philosophy-body .desc {
     font-size: 12pt;
     font-weight: 300;
-    color: var(--gray-text);
+    color: var(--sumi-light);
     line-height: 2.4;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
   }
 
   /* =========================================
@@ -170,28 +171,29 @@
   }
 
   .section-num {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Noto Serif JP', serif;
     font-size: 10pt;
+    font-weight: 300;
     color: var(--gray-light);
     letter-spacing: 0.15em;
     margin-bottom: 14px;
   }
 
   .section-title-en {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Noto Serif JP', serif;
     font-size: 48pt;
-    font-weight: 600;
-    color: var(--navy);
-    letter-spacing: 0.06em;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
     margin-bottom: 10px;
     line-height: 1.1;
   }
 
   .section-title-ja {
     font-size: 22pt;
-    font-weight: 600;
-    color: var(--navy);
-    letter-spacing: 0.16em;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.2em;
     margin-bottom: 28px;
   }
 
@@ -216,9 +218,9 @@
   .section-text p {
     font-size: 12.5pt;
     font-weight: 300;
-    color: var(--gray-text);
+    color: var(--sumi-light);
     line-height: 2.4;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
   }
 
   .section-visual {
@@ -228,7 +230,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #efedea;
+    background: #f0efec;
     border-radius: 0;
   }
 
@@ -244,7 +246,7 @@
      PAGE 5 — Hakudo
      ========================================= */
   .hakudo-visual {
-    background: #efedea;
+    background: #f0efec;
     position: relative;
   }
 
@@ -252,7 +254,7 @@
     width: 56px;
     height: 96px;
     background: linear-gradient(180deg, #d4a54a 0%, #c48830 50%, #8b5e20 100%);
-    border: 2px solid var(--navy);
+    border: 2px solid var(--sumi);
     position: relative;
   }
 
@@ -279,9 +281,9 @@
 
   .pulse-keywords .kw {
     font-size: 14pt;
-    font-weight: 500;
-    color: var(--accent);
-    letter-spacing: 0.24em;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.3em;
   }
 
   .pulse-keywords .sep {
@@ -304,11 +306,11 @@
   }
 
   .closing-brand {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Noto Serif JP', serif;
     font-size: 52pt;
-    font-weight: 600;
-    color: var(--navy);
-    letter-spacing: 0.04em;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
     margin-bottom: 44px;
   }
 
@@ -321,19 +323,19 @@
 
   .closing-tagline {
     font-size: 16pt;
-    font-weight: 400;
-    color: var(--navy);
+    font-weight: 300;
+    color: var(--sumi);
     line-height: 2.4;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     margin-bottom: 56px;
   }
 
   .closing-body {
     font-size: 11pt;
-    font-weight: 300;
+    font-weight: 200;
     color: var(--gray-light);
     line-height: 2.2;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     max-width: 480px;
   }
 
@@ -405,7 +407,7 @@
       </div>
       <div class="section-visual">
         <svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="85" cy="85" r="83" stroke="#1a2744" stroke-width="1"/>
+          <circle cx="85" cy="85" r="83" stroke="#222222" stroke-width="1"/>
         </svg>
       </div>
     </div>
@@ -432,7 +434,7 @@
       </div>
       <div class="section-visual">
         <svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="148" height="148" stroke="#1a2744" stroke-width="1.5"/>
+          <rect x="1" y="1" width="148" height="148" stroke="#222222" stroke-width="1.5"/>
         </svg>
       </div>
     </div>
