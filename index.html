@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staytous 統合資料</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700&display=swap');
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --sumi: #222222;
+    --sumi-light: #3a3a3a;
+    --gray-text: #444444;
+    --gray-light: #999999;
+    --gray-line: #d0d0d0;
+    --bg: #f9f8f6;
+    --card-bg: #f1f0ed;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Noto Serif JP', serif;
+    background: #e8e6e2;
+    color: var(--gray-text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: var(--bg);
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* =========================================
+     Common
+     ========================================= */
+  .page-num {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+
+  .section-label {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+
+  /* =========================================
+     Cover
+     ========================================= */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 28mm;
+    text-align: center;
+  }
+
+  .cover-brand {
+    font-size: 64pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+    margin-bottom: 44px;
+  }
+
+  .cover-line {
+    width: 64px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 44px;
+  }
+
+  .cover-tagline {
+    font-size: 15pt;
+    font-weight: 300;
+    color: var(--sumi);
+    line-height: 2.4;
+    letter-spacing: 0.22em;
+  }
+
+  .cover-sub {
+    position: absolute;
+    bottom: 28mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.16em;
+  }
+
+  /* =========================================
+     Index Page
+     ========================================= */
+  .index-page {
+    padding: 32mm 28mm 28mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .index-title {
+    font-size: 28pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+  }
+
+  .index-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 36px;
+  }
+
+  .index-section {
+    margin-bottom: 32px;
+  }
+
+  .index-section-label {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-line);
+  }
+
+  .index-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+  }
+
+  .index-item-title {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+  }
+
+  .index-item-num {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* =========================================
+     Part Divider
+     ========================================= */
+  .part-divider {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 28mm;
+    text-align: center;
+  }
+
+  .part-num {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 28px;
+  }
+
+  .part-title {
+    font-size: 32pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.14em;
+    margin-bottom: 20px;
+  }
+
+  .part-subtitle {
+    font-size: 11pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    letter-spacing: 0.1em;
+    line-height: 2;
+  }
+
+  .part-line {
+    width: 48px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 28px;
+  }
+
+  /* =========================================
+     Content Pages (shared)
+     ========================================= */
+  .content-page {
+    padding: 28mm 28mm 24mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .content-title {
+    font-size: 24pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .content-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 28px;
+  }
+
+  .content-body {
+    flex: 1;
+  }
+
+  .content-lead {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.2;
+    letter-spacing: 0.06em;
+    margin-bottom: 28px;
+  }
+
+  /* =========================================
+     Brand Book — Philosophy
+     ========================================= */
+  .philosophy {
+    padding: 32mm 28mm 28mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .philosophy-header {
+    margin-bottom: 48px;
+  }
+
+  .philosophy-header .label {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+
+  .philosophy-header h2 {
+    font-size: 36pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+  }
+
+  .philosophy-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 48px;
+  }
+
+  .philosophy-body {
+    max-width: 380px;
+  }
+
+  .philosophy-body .lead {
+    font-size: 20pt;
+    font-weight: 400;
+    color: var(--sumi);
+    line-height: 2.2;
+    letter-spacing: 0.14em;
+    margin-bottom: 48px;
+  }
+
+  .philosophy-body .desc {
+    font-size: 12pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.4;
+    letter-spacing: 0.08em;
+  }
+
+  /* =========================================
+     Brand Book — Section Pages (ZEN, Chado, etc.)
+     ========================================= */
+  .section-page {
+    padding: 32mm 28mm 28mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .section-num {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+  }
+
+  .section-title-en {
+    font-size: 48pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+
+  .section-title-ja {
+    font-size: 22pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.2em;
+    margin-bottom: 28px;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 40px;
+  }
+
+  .section-content {
+    display: flex;
+    gap: 32px;
+    flex: 1;
+  }
+
+  .section-text {
+    flex: 1;
+    padding-top: 4px;
+  }
+
+  .section-text p {
+    font-size: 12.5pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.4;
+    letter-spacing: 0.08em;
+  }
+
+  .section-visual {
+    width: 260px;
+    height: 260px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0efec;
+  }
+
+  .section-visual svg {
+    display: block;
+  }
+
+  .hakudo-visual {
+    background: #f0efec;
+    position: relative;
+  }
+
+  .hakudo-window {
+    width: 56px;
+    height: 96px;
+    background: linear-gradient(180deg, #d4a54a 0%, #c48830 50%, #8b5e20 100%);
+    border: 2px solid var(--sumi);
+    position: relative;
+  }
+
+  .hakudo-figure {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 28px;
+    border-radius: 50% 50% 0 0;
+    background: rgba(0,0,0,0.25);
+  }
+
+  .pulse-keywords {
+    display: flex;
+    gap: 24px;
+    margin-top: 56px;
+    align-items: center;
+  }
+
+  .pulse-keywords .kw {
+    font-size: 14pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.3em;
+  }
+
+  .pulse-keywords .sep {
+    width: 1px;
+    height: 18px;
+    background: var(--gray-line);
+  }
+
+  /* =========================================
+     Bar Items
+     ========================================= */
+  .bar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .bar-item .bar {
+    width: 2px;
+    min-height: 36px;
+    background: var(--sumi);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .bar-item .bar-heading {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .bar-item .bar-desc {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 1.9;
+    letter-spacing: 0.06em;
+  }
+
+  /* =========================================
+     Two Column
+     ========================================= */
+  .two-col {
+    display: flex;
+    gap: 32px;
+  }
+
+  .two-col .col {
+    flex: 1;
+  }
+
+  /* =========================================
+     Statement
+     ========================================= */
+  .statement {
+    font-size: 18pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.14em;
+    line-height: 2.2;
+    margin-bottom: 36px;
+  }
+
+  .statement-sub {
+    font-size: 11pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.4;
+    letter-spacing: 0.08em;
+  }
+
+  /* =========================================
+     Highlight Box
+     ========================================= */
+  .highlight-box {
+    margin-top: 24px;
+    padding: 18px 22px;
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .highlight-box .hl-bar {
+    width: 2px;
+    height: 18px;
+    background: var(--sumi);
+    flex-shrink: 0;
+  }
+
+  .highlight-box .hl-text {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+  }
+
+  .highlight-box .hl-text span {
+    font-weight: 300;
+    color: var(--sumi-light);
+  }
+
+  /* =========================================
+     Concept Center
+     ========================================= */
+  .concept-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 28mm;
+    text-align: center;
+  }
+
+  .concept-main {
+    font-size: 28pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.16em;
+    line-height: 2;
+    margin-bottom: 48px;
+  }
+
+  .concept-desc {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.4;
+    letter-spacing: 0.08em;
+    max-width: 400px;
+  }
+
+  .concept-keywords {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+    align-items: center;
+  }
+
+  .concept-keywords .kw {
+    font-size: 13pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.2em;
+  }
+
+  .concept-keywords .sep {
+    width: 1px;
+    height: 16px;
+    background: var(--gray-line);
+  }
+
+  .concept-line {
+    width: 48px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 40px;
+  }
+
+  .concept-sub {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.4;
+    letter-spacing: 0.08em;
+    margin-top: 40px;
+    max-width: 400px;
+  }
+
+  /* =========================================
+     Flow Row
+     ========================================= */
+  .flow-row {
+    display: flex;
+    gap: 0;
+    margin-top: 24px;
+  }
+
+  .flow-item {
+    flex: 1;
+    position: relative;
+    padding: 22px 18px;
+    background: var(--card-bg);
+  }
+
+  .flow-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--gray-line);
+  }
+
+  .flow-item .flow-step {
+    font-size: 8pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .flow-item .flow-label {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .flow-item .flow-desc {
+    font-size: 8.5pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+  }
+
+  /* =========================================
+     Grid
+     ========================================= */
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gray-line);
+    margin-top: 24px;
+  }
+
+  .grid-cell {
+    background: var(--card-bg);
+    padding: 22px 20px;
+  }
+
+  .grid-cell .cell-num {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+
+  .grid-cell .cell-title {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .grid-cell .cell-desc {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+  }
+
+  /* =========================================
+     Metrics
+     ========================================= */
+  .metric {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .metric .num {
+    font-size: 36pt;
+    font-weight: 300;
+    color: var(--sumi);
+    letter-spacing: 0.04em;
+  }
+
+  .metric .metric-unit {
+    font-size: 12pt;
+    font-weight: 300;
+    color: var(--sumi);
+  }
+
+  .metric .metric-label {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.12em;
+    margin-top: 8px;
+  }
+
+  .metric .metric-desc {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    letter-spacing: 0.06em;
+    margin-top: 10px;
+    line-height: 1.8;
+  }
+
+  /* =========================================
+     Facility / Team / Table
+     ========================================= */
+  .facility-box {
+    background: var(--card-bg);
+    padding: 28px 24px;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .facility-box .fac-label {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.16em;
+    margin-bottom: 14px;
+  }
+
+  .facility-box .fac-name {
+    font-size: 18pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.14em;
+    margin-bottom: 18px;
+  }
+
+  .facility-box .fac-spec {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2;
+    letter-spacing: 0.08em;
+  }
+
+  .team-row {
+    display: flex;
+    gap: 0;
+    margin-top: 24px;
+  }
+
+  .team-item {
+    flex: 1;
+    position: relative;
+    padding: 22px 18px;
+    background: var(--card-bg);
+    text-align: center;
+  }
+
+  .team-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--gray-line);
+  }
+
+  .team-item .team-role {
+    font-size: 8pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+
+  .team-item .team-name {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .team-item .team-detail {
+    font-size: 8pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    letter-spacing: 0.06em;
+  }
+
+  .invest-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .invest-table th,
+  .invest-table td {
+    text-align: left;
+    padding: 11px 14px;
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--gray-line);
+  }
+
+  .invest-table th {
+    font-weight: 400;
+    color: var(--sumi);
+    background: var(--card-bg);
+  }
+
+  .invest-table td:first-child {
+    font-weight: 400;
+    color: var(--sumi);
+  }
+
+  .invest-table td:last-child {
+    text-align: right;
+  }
+
+  /* =========================================
+     Calc Block
+     ========================================= */
+  .calc-block {
+    background: var(--card-bg);
+    padding: 24px;
+    margin-top: 20px;
+  }
+
+  .calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-line);
+  }
+
+  .calc-row:last-child {
+    border-bottom: none;
+  }
+
+  .calc-row .calc-label {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    letter-spacing: 0.08em;
+  }
+
+  .calc-row .calc-value {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.06em;
+  }
+
+  .calc-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0 0;
+    margin-top: 4px;
+    border-top: 2px solid var(--sumi);
+  }
+
+  .calc-result .calc-label {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+  }
+
+  .calc-result .calc-value {
+    font-size: 18pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.04em;
+  }
+
+  /* =========================================
+     Footer
+     ========================================= */
+  .grid-footer {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .grid-footer .gf-bar {
+    width: 2px;
+    height: 18px;
+    background: var(--sumi);
+    flex-shrink: 0;
+  }
+
+  .grid-footer .gf-text {
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+  }
+
+  /* =========================================
+     Closing
+     ========================================= */
+  .closing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 32mm;
+    text-align: center;
+  }
+
+  .closing-brand {
+    font-size: 48pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+    margin-bottom: 36px;
+  }
+
+  .closing-line {
+    width: 48px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 36px;
+  }
+
+  .closing-tagline {
+    font-size: 15pt;
+    font-weight: 300;
+    color: var(--sumi);
+    line-height: 2.2;
+    letter-spacing: 0.18em;
+    margin-bottom: 40px;
+  }
+
+  .closing-statement {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.4;
+    letter-spacing: 0.06em;
+    max-width: 400px;
+  }
+
+  .closing-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gray-line);
+    margin-top: 44px;
+  }
+</style>
+</head>
+<body>
+
+
+<!-- ======================================================
+     COVER
+     ====================================================== -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-brand">Staytous</div>
+    <div class="cover-line"></div>
+    <div class="cover-tagline">
+      場を整える。<br>
+      宿泊者が整う。
+    </div>
+  </div>
+  <div class="cover-sub">Brand Book &amp; Business Plan</div>
+</div>
+
+
+<!-- ======================================================
+     INDEX
+     ====================================================== -->
+<div class="page">
+  <div class="index-page">
+    <div class="index-title">Contents</div>
+    <div class="index-divider"></div>
+
+    <div class="index-section">
+      <div class="index-section-label">PART I — Brand Book 思想編</div>
+      <div class="index-item">
+        <span class="index-item-title">思想</span>
+        <span class="index-item-num">04</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">ZEN 禅</span>
+        <span class="index-item-num">05</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">Chado 茶道</span>
+        <span class="index-item-num">06</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">Haku-do 泊道</span>
+        <span class="index-item-num">07</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">拍動する場</span>
+        <span class="index-item-num">08</span>
+      </div>
+    </div>
+
+    <div class="index-section">
+      <div class="index-section-label">PART II — Brand Book デザイン編</div>
+      <div class="index-item">
+        <span class="index-item-title">空間を整える</span>
+        <span class="index-item-num">10</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">空気を整える</span>
+        <span class="index-item-num">11</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">音を整える</span>
+        <span class="index-item-num">12</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">都市に、住まう。</span>
+        <span class="index-item-num">13</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">都市に住まう、という選択。</span>
+        <span class="index-item-num">14</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">都市に、住まうように泊まる</span>
+        <span class="index-item-num">15</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">都市に、命を灯す。</span>
+        <span class="index-item-num">16</span>
+      </div>
+    </div>
+
+    <div class="index-section">
+      <div class="index-section-label">PART III — Business Plan 事業計画</div>
+      <div class="index-item">
+        <span class="index-item-title">事業概要</span>
+        <span class="index-item-num">18</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">ブランド哲学</span>
+        <span class="index-item-num">19</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">ブランドコンセプト</span>
+        <span class="index-item-num">20</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">都市型宿泊コンセプト / 事業モデル</span>
+        <span class="index-item-num">21</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">立地戦略 / 施設モデル</span>
+        <span class="index-item-num">22</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">クリエイティブ体制 / 投資構造</span>
+        <span class="index-item-num">23</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">投資計画</span>
+        <span class="index-item-num">24</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">収益モデル</span>
+        <span class="index-item-num">25</span>
+      </div>
+      <div class="index-item">
+        <span class="index-item-title">営業利益と投資回収</span>
+        <span class="index-item-num">26</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======================================================
+     PART I — Brand Book 思想編
+     ====================================================== -->
+<div class="page">
+  <div class="part-divider">
+    <div class="part-num">PART I</div>
+    <div class="part-line"></div>
+    <div class="part-title">Brand Book</div>
+    <div class="part-subtitle">
+      思想編
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 04: 思想 -->
+<div class="page">
+  <div class="philosophy">
+    <div class="philosophy-header">
+      <div class="label">Philosophy</div>
+      <h2>思想</h2>
+    </div>
+    <div class="philosophy-divider"></div>
+    <div class="philosophy-body">
+      <div class="lead">
+        整えるとは、<br>
+        余白をつくることである。
+      </div>
+      <p class="desc">
+        禅は心に余白をつくり、<br>
+        茶道は場に余白をつくった。<br>
+        Staytousは「泊まる」という行為に<br>
+        余白をつくる。<br><br>
+        私たちはホテルをつくるのではない。<br>
+        人が整う場を、整える。
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 05: ZEN -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">01</div>
+    <div class="section-title-en">ZEN</div>
+    <div class="section-title-ja">禅</div>
+    <div class="section-divider"></div>
+    <div class="section-content">
+      <div class="section-text">
+        <p>
+          心を整える。<br><br>
+          禅は、静寂の中に身を置き、<br>
+          呼吸だけで自分と向き合う文化である。<br><br>
+          何も足さない。何も引かない。<br>
+          ただ、そこに在る。<br><br>
+          整えられた空間が、<br>
+          人の意識を静かに整えていく。
+        </p>
+      </div>
+      <div class="section-visual">
+        <svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="85" cy="85" r="83" stroke="#222222" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 06: Chado -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">02</div>
+    <div class="section-title-en" style="font-style: italic;">Chado</div>
+    <div class="section-title-ja">茶道</div>
+    <div class="section-divider"></div>
+    <div class="section-content">
+      <div class="section-text">
+        <p>
+          場を整える。<br><br>
+          床の間、花、道具、所作。<br>
+          茶道は、空間のすべてに意図を宿す文化である。<br><br>
+          整えられた場の中で、<br>
+          一杯の茶が生まれ、<br>
+          人の時間が静かに変わる。<br><br>
+          場が整うとき、<br>
+          そこに流れる時間もまた整う。
+        </p>
+      </div>
+      <div class="section-visual">
+        <svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="148" height="148" stroke="#222222" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 07: Haku-do -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">03</div>
+    <div class="section-title-en" style="font-style: italic;">Haku-do</div>
+    <div class="section-title-ja">泊道</div>
+    <div class="section-divider"></div>
+    <div class="section-content">
+      <div class="section-text">
+        <p>
+          宿泊者が整う。<br><br>
+          禅が心を整え、茶道が場を整えたように、<br>
+          Staytousは「泊まる」を整える。<br><br>
+          泊まることは、ただ眠ることではない。<br>
+          整えられた場に身を置き、<br>
+          その土地の空気と時間に、<br>
+          静かに身を委ねること。<br><br>
+          私たちはこれを、泊道と呼ぶ。
+        </p>
+      </div>
+      <div class="section-visual hakudo-visual">
+        <div class="hakudo-window">
+          <div class="hakudo-figure"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 08: 拍動する場 -->
+<div class="page">
+  <div class="section-page">
+    <div class="section-num">04</div>
+    <div class="section-title-ja" style="font-size: 36pt; letter-spacing: 0.12em; margin-bottom: 28px;">拍動する場</div>
+    <div class="section-divider"></div>
+    <div class="section-text" style="max-width: 420px;">
+      <p>
+        整えられた場に、人が訪れる。<br>
+        呼吸し、語らい、杯を交わす。<br><br>
+        そのとき場は、<br>
+        静かに拍動し始める。<br><br>
+        人のリズム、文化のリズム、都市のリズム。<br>
+        それらが重なり合い、<br>
+        場そのものが生き始める。
+      </p>
+    </div>
+    <div class="pulse-keywords">
+      <span class="kw">人</span>
+      <span class="sep"></span>
+      <span class="kw">文化</span>
+      <span class="sep"></span>
+      <span class="kw">都市</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======================================================
+     PART II — Brand Book デザイン編
+     ====================================================== -->
+<div class="page">
+  <div class="part-divider">
+    <div class="part-num">PART II</div>
+    <div class="part-line"></div>
+    <div class="part-title">Brand Book</div>
+    <div class="part-subtitle">
+      デザイン編
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 10: 空間を整える -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">01</div>
+    <div class="content-title">空間を整える</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="bar-item">
+        <div class="bar"></div>
+        <div class="bar-content">
+          <div class="bar-heading">光と影、素材の呼吸。</div>
+          <div class="bar-desc">
+            装飾を排した、純粋な余白を設計する。
+          </div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar"></div>
+        <div class="bar-content">
+          <div class="bar-heading">都市の喧騒を遠くに、</div>
+          <div class="bar-desc">
+            静寂を住まう。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 11: 空気を整える -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">02</div>
+    <div class="content-title">空気を整える</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="two-col">
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">温度、湿度、光。</div>
+              <div class="bar-desc">
+                清澄な気配が、深く満ちる。
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">不可視の調律。</div>
+              <div class="bar-desc">
+                場を支配するのは、<br>
+                見えない深淵である。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 12: 音を整える -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">03</div>
+    <div class="content-title">音を整える</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        音で、時間を編む。
+      </p>
+      <div class="flow-row">
+        <div class="flow-item">
+          <div class="flow-label">静寂</div>
+          <div class="flow-desc">場に、深みを宿す。</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-label">環境音</div>
+          <div class="flow-desc">気配を、静かに満たす。</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-label">旋律</div>
+          <div class="flow-desc">刻まれる、時間という風景。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 13: 都市に、住まう。 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">04</div>
+    <div class="content-title">都市に、住まう。</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        Staytousは、旅の通過点ではない。<br>
+        街の鼓動に触れ、都市の日常を呼吸する。<br>
+        ここを拠点に、境界のない暮らしを。
+      </p>
+      <div class="highlight-box">
+        <div class="hl-bar"></div>
+        <div class="hl-text">都市体験の拠点、<span>あるいは日常の延長。</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 14: 都市に住まう、という選択。 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">05</div>
+    <div class="content-title">都市に住まう、という選択。</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="two-col">
+        <div class="col">
+          <div class="metric">
+            <div class="num">1-10</div>
+            <div class="metric-label">極小の余白</div>
+            <div class="metric-desc">
+              都市の鼓動を、指先で触れる。
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">密やかな密度。</div>
+              <div class="bar-desc">
+                研ぎ澄まされた空間に、<br>
+                都市の日常を纏う。<br>
+                泊まるという概念を越え、<br>
+                その街の一部になる体験を。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 15: 都市に、住まうように泊まる -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">06</div>
+    <div class="content-title">都市に、住まうように泊まる</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        客室の数ではなく、一室の密度を極める。<br>
+        空間、空気、音、そのすべてを研ぎ澄まし、<br>
+        都市での滞在をより深いものへ。
+      </p>
+      <div class="grid-2x2">
+        <div class="grid-cell">
+          <div class="cell-title">空間</div>
+          <div class="cell-desc">静寂と、余白。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">空気</div>
+          <div class="cell-desc">満たされる、静かな環境。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">音</div>
+          <div class="cell-desc">時間を編む、音の風景。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">体験</div>
+          <div class="cell-desc">深く、濃密な滞在。</div>
+        </div>
+      </div>
+      <div class="grid-footer">
+        <div class="gf-bar"></div>
+        <div class="gf-text">都市を住みこなす、その価値を。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 16: 都市に、命を灯す。 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">07</div>
+    <div class="content-title">都市に、命を灯す。</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        建築だけでは、場は完成しない。
+      </p>
+      <p class="content-lead">
+        そこに触れる人の感性が、<br>
+        都市の日常を文化へ変えていく。<br><br>
+        <strong style="font-weight: 400; color: var(--sumi);">泊まる、ではなく、住まうという時間を。</strong>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======================================================
+     PART III — Business Plan
+     ====================================================== -->
+<div class="page">
+  <div class="part-divider">
+    <div class="part-num">PART III</div>
+    <div class="part-line"></div>
+    <div class="part-title">Business Plan</div>
+    <div class="part-subtitle">
+      事業計画
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 18: 事業概要 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">01</div>
+    <div class="section-label">Overview</div>
+    <div class="content-title">事業概要</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        Staytousは、都市の中に<br>
+        整えられた場をつくる宿泊ブランドである。
+      </p>
+      <p class="content-lead">
+        一般的なホテルのように多くの客室を持つ施設ではなく、<br>
+        都市の中に小さく質の高い宿泊拠点をつくることで、<br>
+        宿泊体験そのものの価値を高める。
+      </p>
+      <div class="highlight-box">
+        <div class="hl-bar"></div>
+        <div class="hl-text">1室から最大10室程度の小規模構成</div>
+      </div>
+      <p class="content-lead" style="margin-top: 28px;">
+        Staytousの宿泊空間は<br>
+        都市の文化や時間を感じる拠点として設計する。
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 19: ブランド哲学 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">02</div>
+    <div class="section-label">Philosophy</div>
+    <div class="content-title">ブランド哲学</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="statement">
+        場を整える。<br>
+        宿泊者が整う。
+      </div>
+      <p class="statement-sub">
+        Staytousの思想はシンプルである。
+      </p>
+      <div class="grid-2x2" style="margin-top: 32px;">
+        <div class="grid-cell">
+          <div class="cell-title">空間を整える。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">空気を整える。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">余白を整える。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-desc" style="font-size: 9pt; line-height: 2; padding-top: 4px;">
+            整えられた場に身を置くことで、<br>
+            宿泊者の時間と感覚は<br>
+            自然と整っていく。
+          </div>
+        </div>
+      </div>
+      <div class="grid-footer" style="margin-top: 32px;">
+        <div class="gf-bar"></div>
+        <div class="gf-text">都市の中に整えられた場をつくるブランド。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 20: ブランドコンセプト -->
+<div class="page">
+  <div class="concept-center">
+    <div class="page-num">03</div>
+    <div class="concept-line"></div>
+    <div class="concept-main">
+      場を創造して、<br>
+      間を想像する。
+    </div>
+    <p class="concept-desc">
+      Staytousは<br>
+      単に宿泊空間をつくるのではない。<br><br>
+      都市の中に新しい場を創造する。<br>
+      その場の中に生まれる
+    </p>
+    <div class="concept-keywords">
+      <span class="kw">時間</span>
+      <span class="sep"></span>
+      <span class="kw">距離</span>
+      <span class="sep"></span>
+      <span class="kw">余白</span>
+      <span class="sep"></span>
+      <span class="kw">静けさ</span>
+    </div>
+    <p class="concept-sub">
+      それらを「間」として想像し、設計する。<br><br>
+      Staytousは<br>
+      この間をプロデュースする宿泊ブランドである。
+    </p>
+  </div>
+</div>
+
+
+<!-- PAGE 21: 都市型宿泊コンセプト + 事業モデル -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">04</div>
+    <div class="section-label">Concept &amp; Model</div>
+    <div class="content-title">都市型宿泊コンセプト</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="statement" style="font-size: 16pt; margin-bottom: 28px;">
+        まちに泊まる。<br>
+        まちに住まう。
+      </div>
+      <p class="content-lead">
+        Staytousはホテルの中で完結する宿泊施設ではない。<br>
+        宿泊者は街を歩き、文化に触れ、都市の空気を感じる。<br>
+        都市体験の拠点となる静かな場を提供する。
+      </p>
+      <div class="content-divider" style="margin-top: 28px;"></div>
+      <div class="section-label">Business Model</div>
+      <p class="content-lead" style="margin-bottom: 20px;">
+        Staytousは大規模ホテルではなく、<br>
+        1室〜10室の小規模宿泊施設で展開する。
+      </p>
+      <div class="two-col">
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">高単価</div>
+              <div class="bar-desc">
+                体験密度を極めることで<br>
+                高い客室単価を実現する。
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">低固定費</div>
+              <div class="bar-desc">
+                極小規模による<br>
+                固定費の圧縮。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="hl-bar"></div>
+        <div class="hl-text">短期投資回収を実現する構造。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 22: 立地戦略 + 施設モデル -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">05</div>
+    <div class="section-label">Location &amp; Facility</div>
+    <div class="content-title">立地戦略</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        Staytousは都市の空中階のみを対象とする。
+      </p>
+      <div class="bar-item">
+        <div class="bar"></div>
+        <div class="bar-content">
+          <div class="bar-heading">対象エリア</div>
+          <div class="bar-desc">大阪 心斎橋〜難波</div>
+        </div>
+      </div>
+      <div class="grid-2x2">
+        <div class="grid-cell">
+          <div class="cell-title">坪単価が低い</div>
+          <div class="cell-desc">空中階の賃料優位性を活かす。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">静けさを確保</div>
+          <div class="cell-desc">地上の喧騒から離れた空間。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">都市景観を活用</div>
+          <div class="cell-desc">高層からの都市の眺望を体験に。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">ブランド演出</div>
+          <div class="cell-desc">非日常の入口としての空中階。</div>
+        </div>
+      </div>
+      <div class="content-divider" style="margin-top: 28px;"></div>
+      <div class="section-label">Facility</div>
+      <div class="facility-box">
+        <div class="fac-label">STAYTOUS STANDARD</div>
+        <div class="fac-name">コンセプトルーム</div>
+        <div class="fac-spec">
+          面積 60〜80㎡ ／ 1フロア1室<br>
+          都市の中の、整えられた宿泊拠点
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 23: クリエイティブ体制 + 投資構造 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">06</div>
+    <div class="section-label">Creative &amp; Structure</div>
+    <div class="content-title">クリエイティブ体制</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="team-row">
+        <div class="team-item">
+          <div class="team-role">空間設計</div>
+          <div class="team-name">鄭 秀和</div>
+        </div>
+        <div class="team-item">
+          <div class="team-role">空気環境</div>
+          <div class="team-name">鈴木 健</div>
+          <div class="team-detail">cado</div>
+        </div>
+        <div class="team-item">
+          <div class="team-role">プロデュース</div>
+          <div class="team-name">Staytous</div>
+        </div>
+      </div>
+      <div class="grid-footer" style="margin-top: 28px;">
+        <div class="gf-bar"></div>
+        <div class="gf-text">Staytousの特徴は、間のプロデュースにある。</div>
+      </div>
+      <div class="content-divider" style="margin-top: 32px;"></div>
+      <div class="section-label">Investment Structure</div>
+      <div class="content-title" style="font-size: 20pt;">投資構造</div>
+      <p class="content-lead" style="margin-top: 8px;">
+        Staytousの投資は、次の二層構造で設計される。
+      </p>
+      <div class="two-col" style="margin-top: 16px;">
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">Basic Investment</div>
+              <div class="bar-desc">
+                整えられた場をつくる投資。<br>
+                内装・設計・家具・照明・設備。
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">Creative Additional</div>
+              <div class="bar-desc">
+                空間に文化的価値を加える投資。<br>
+                アート・オブジェ・文化的演出。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 24: 投資計画 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">07</div>
+    <div class="section-label">Investment</div>
+    <div class="content-title">投資計画</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="two-col">
+        <div class="col">
+          <div class="section-label">Basic Investment</div>
+          <table class="invest-table">
+            <tr><td>内装施工</td></tr>
+            <tr><td>建築設計</td></tr>
+            <tr><td>家具・照明</td></tr>
+            <tr><td>設備</td></tr>
+            <tr><td>空間プロダクト</td></tr>
+            <tr><td>鄭秀和 空間設計</td></tr>
+            <tr><td>鈴木健 / cado 空気環境</td></tr>
+          </table>
+          <div class="metric" style="margin-top: 20px;">
+            <div class="num" style="font-size: 28pt;">2,900<span class="metric-unit">万円</span></div>
+            <div class="metric-label">基本投資</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="section-label">Creative Additional（CA）</div>
+          <table class="invest-table">
+            <tr><td>アーティスト予算</td></tr>
+            <tr><td>アート作品</td></tr>
+            <tr><td>空間オブジェ</td></tr>
+            <tr><td>文化的演出</td></tr>
+          </table>
+          <p class="content-lead" style="margin-top: 16px; font-size: 9pt;">
+            CAによってStaytousの空間は<br>
+            文化的な場となる。
+          </p>
+          <div class="metric" style="margin-top: 12px;">
+            <div class="num" style="font-size: 28pt;">1,000<span class="metric-unit">万円</span></div>
+            <div class="metric-label">Creative Additional</div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-block" style="margin-top: 28px;">
+        <div class="calc-row">
+          <span class="calc-label">基本投資</span>
+          <span class="calc-value">2,900万円</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Creative Additional</span>
+          <span class="calc-value">1,000万円</span>
+        </div>
+        <div class="calc-result">
+          <span class="calc-label">総投資額</span>
+          <span class="calc-value">3,900万円</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 25: 収益モデル -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">08</div>
+    <div class="section-label">Revenue</div>
+    <div class="content-title">収益モデル</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="two-col">
+        <div class="col">
+          <div class="metric">
+            <div class="num">150,000<span class="metric-unit">円</span></div>
+            <div class="metric-label">ADR（平均客室単価）</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="metric">
+            <div class="num">50<span class="metric-unit">%</span></div>
+            <div class="metric-label">稼働率</div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-block" style="margin-top: 32px;">
+        <div class="calc-row">
+          <span class="calc-label">年間宿泊数</span>
+          <span class="calc-value">365日 × 50% = 182泊</span>
+        </div>
+        <div class="calc-result">
+          <span class="calc-label">年間売上</span>
+          <span class="calc-value">27,300,000円</span>
+        </div>
+      </div>
+      <div class="content-divider" style="margin-top: 32px;"></div>
+      <div class="section-label">Cost &amp; Profit</div>
+      <div class="calc-block">
+        <div class="calc-row">
+          <span class="calc-label">清掃</span>
+          <span class="calc-value"></span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">リネン</span>
+          <span class="calc-value"></span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">OTA手数料</span>
+          <span class="calc-value"></span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">光熱費</span>
+          <span class="calc-value"></span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">メンテナンス</span>
+          <span class="calc-value"></span>
+        </div>
+        <div class="calc-result">
+          <span class="calc-label">運営費 合計</span>
+          <span class="calc-value">約800万円</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 26: 営業利益と投資回収 -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">09</div>
+    <div class="section-label">Profit &amp; Payback</div>
+    <div class="content-title">営業利益と投資回収</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="calc-block">
+        <div class="calc-row">
+          <span class="calc-label">売上</span>
+          <span class="calc-value">2,730万円</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">運営費</span>
+          <span class="calc-value">800万円</span>
+        </div>
+        <div class="calc-result">
+          <span class="calc-label">営業利益</span>
+          <span class="calc-value">約1,900万円</span>
+        </div>
+      </div>
+      <div class="content-divider" style="margin-top: 36px;"></div>
+      <div class="two-col" style="margin-top: 8px;">
+        <div class="col">
+          <div class="metric">
+            <div class="num">3,900<span class="metric-unit">万円</span></div>
+            <div class="metric-label">総投資</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="metric">
+            <div class="num">1,900<span class="metric-unit">万円</span></div>
+            <div class="metric-label">営業利益</div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-block" style="margin-top: 28px;">
+        <div class="calc-result" style="border-top: none; padding-top: 0;">
+          <span class="calc-label">回収期間</span>
+          <span class="calc-value">約2年</span>
+        </div>
+      </div>
+      <div class="grid-footer" style="margin-top: 32px;">
+        <div class="gf-bar"></div>
+        <div class="gf-text">小さく整え、確実に回収する。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======================================================
+     CLOSING
+     ====================================================== -->
+<div class="page">
+  <div class="closing">
+    <div class="closing-brand">Staytous</div>
+    <div class="closing-line"></div>
+    <div class="closing-tagline">
+      場を創造して、<br>
+      間を想像する。
+    </div>
+    <p class="closing-statement">
+      整えられた場の中で<br>
+      宿泊者は整う。<br><br>
+      Staytousは<br>
+      都市の中に新しい宿泊文化をつくるブランドである。
+    </p>
+    <div class="closing-dot"></div>
+  </div>
+</div>
+
+
+</body>
+</html>
