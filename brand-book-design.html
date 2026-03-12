@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staytous Brand Book — Design</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700&display=swap');
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --sumi: #222222;
+    --sumi-light: #3a3a3a;
+    --gray-text: #444444;
+    --gray-light: #999999;
+    --gray-line: #d0d0d0;
+    --bg: #f9f8f6;
+    --card-bg: #f1f0ed;
+    --accent-bar: #222222;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Noto Serif JP', serif;
+    background: #e8e6e2;
+    color: var(--gray-text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: var(--bg);
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* =========================================
+     Common
+     ========================================= */
+  .page-num {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.15em;
+  }
+
+  .section-label {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+  }
+
+  /* =========================================
+     PAGE 1 — Cover
+     ========================================= */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 0 28mm;
+  }
+
+  .cover-brand {
+    font-size: 56pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+    margin-bottom: 32px;
+  }
+
+  .cover-headline {
+    font-size: 22pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+
+  .cover-desc {
+    font-size: 10.5pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.2;
+    letter-spacing: 0.06em;
+    max-width: 420px;
+  }
+
+  .cover-sub {
+    position: absolute;
+    bottom: 28mm;
+    left: 28mm;
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.16em;
+  }
+
+  /* =========================================
+     PAGE 2 — 空間を整える
+     ========================================= */
+  .content-page {
+    padding: 30mm 28mm 24mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .content-page .page-num {
+    margin-bottom: 12px;
+  }
+
+  .content-title {
+    font-size: 26pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .content-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 32px;
+  }
+
+  .content-body {
+    flex: 1;
+  }
+
+  .bar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .bar-item .bar {
+    width: 2px;
+    min-height: 48px;
+    background: var(--sumi);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .bar-item .bar-content {}
+
+  .bar-item .bar-heading {
+    font-size: 12pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .bar-item .bar-desc {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2;
+    letter-spacing: 0.06em;
+  }
+
+  .content-lead {
+    font-size: 11pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 2.2;
+    letter-spacing: 0.06em;
+    margin-bottom: 32px;
+  }
+
+  /* =========================================
+     PAGE 4 — 音を整える
+     ========================================= */
+  .flow-row {
+    display: flex;
+    gap: 0;
+    margin-top: 32px;
+  }
+
+  .flow-item {
+    flex: 1;
+    position: relative;
+    padding: 24px 20px;
+    background: var(--card-bg);
+  }
+
+  .flow-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--gray-line);
+  }
+
+  .flow-item .flow-label {
+    font-size: 13pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+
+  .flow-item .flow-desc {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+  }
+
+  /* =========================================
+     PAGE 5 — 都市に、住まう。
+     ========================================= */
+  .highlight-box {
+    margin-top: 40px;
+    padding: 20px 24px;
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .highlight-box .hl-bar {
+    width: 2px;
+    height: 20px;
+    background: var(--sumi);
+    flex-shrink: 0;
+  }
+
+  .highlight-box .hl-text {
+    font-size: 10.5pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+  }
+
+  .highlight-box .hl-text span {
+    font-weight: 300;
+    color: var(--sumi-light);
+  }
+
+  /* =========================================
+     PAGE 6 — 都市に住まう、という選択。
+     ========================================= */
+  .two-col {
+    display: flex;
+    gap: 40px;
+    margin-top: 8px;
+  }
+
+  .two-col .col {
+    flex: 1;
+  }
+
+  .metric {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .metric .num {
+    font-size: 42pt;
+    font-weight: 300;
+    color: var(--sumi);
+    letter-spacing: 0.04em;
+  }
+
+  .metric .metric-label {
+    font-size: 10pt;
+    font-weight: 300;
+    color: var(--gray-light);
+    letter-spacing: 0.12em;
+    margin-top: 8px;
+  }
+
+  .metric .metric-desc {
+    font-size: 9.5pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    letter-spacing: 0.06em;
+    margin-top: 12px;
+    line-height: 1.8;
+  }
+
+  /* =========================================
+     PAGE 7 — Summary Grid
+     ========================================= */
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gray-line);
+    margin-top: 32px;
+  }
+
+  .grid-cell {
+    background: var(--card-bg);
+    padding: 28px 24px;
+  }
+
+  .grid-cell .cell-title {
+    font-size: 14pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+
+  .grid-cell .cell-desc {
+    font-size: 9pt;
+    font-weight: 300;
+    color: var(--sumi-light);
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+  }
+
+  .grid-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .grid-footer .gf-bar {
+    width: 2px;
+    height: 20px;
+    background: var(--sumi);
+    flex-shrink: 0;
+  }
+
+  .grid-footer .gf-text {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.1em;
+  }
+
+  /* =========================================
+     PAGE 9 — Closing
+     ========================================= */
+  .closing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 32mm;
+    text-align: center;
+  }
+
+  .closing-brand {
+    font-size: 48pt;
+    font-weight: 400;
+    color: var(--sumi);
+    letter-spacing: 0.08em;
+    margin-bottom: 40px;
+  }
+
+  .closing-line {
+    width: 48px;
+    height: 1px;
+    background: var(--gray-line);
+    margin-bottom: 40px;
+  }
+
+  .closing-pair {
+    display: flex;
+    gap: 64px;
+    margin-bottom: 48px;
+  }
+
+  .closing-pair .pair-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .closing-pair .pair-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gray-line);
+    flex-shrink: 0;
+  }
+
+  .closing-pair .pair-text {
+    font-size: 11pt;
+    font-weight: 300;
+    color: var(--sumi);
+    letter-spacing: 0.12em;
+  }
+
+  .closing-statement {
+    font-size: 9.5pt;
+    font-weight: 200;
+    color: var(--gray-light);
+    line-height: 2;
+    letter-spacing: 0.06em;
+    max-width: 460px;
+  }
+
+  .closing-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gray-line);
+    margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+
+
+<!-- ============ PAGE 1: COVER ============ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-brand">Staytous</div>
+    <div class="cover-headline">
+      都市に還る、呼吸を整える
+    </div>
+    <p class="cover-desc">
+      静寂を設計し、無駄を削ぎ落とす。<br>
+      都市の喧騒から離れ、<br>
+      日常の余白に住まうように泊まる。<br><br>
+      私たちが整えるのは、<br>
+      あなたがあなたに還るための場所。
+    </p>
+  </div>
+  <div class="cover-sub">Brand Book — Design</div>
+</div>
+
+
+<!-- ============ PAGE 2: 空間を整える ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">01</div>
+    <div class="content-title">空間を整える</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="bar-item">
+        <div class="bar"></div>
+        <div class="bar-content">
+          <div class="bar-heading">光と影、素材の呼吸。</div>
+          <div class="bar-desc">
+            装飾を排した、純粋な余白を設計する。
+          </div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar"></div>
+        <div class="bar-content">
+          <div class="bar-heading">都市の喧騒を遠くに、</div>
+          <div class="bar-desc">
+            静寂を住まう。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 3: 空気を整える ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">02</div>
+    <div class="content-title">空気を整える</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="two-col">
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">温度、湿度、光。</div>
+              <div class="bar-desc">
+                清澄な気配が、深く満ちる。
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">不可視の調律。</div>
+              <div class="bar-desc">
+                場を支配するのは、<br>
+                見えない深淵である。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 4: 音を整える ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">03</div>
+    <div class="content-title">音を整える</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        音で、時間を編む。
+      </p>
+      <div class="flow-row">
+        <div class="flow-item">
+          <div class="flow-label">静寂</div>
+          <div class="flow-desc">場に、深みを宿す。</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-label">環境音</div>
+          <div class="flow-desc">気配を、静かに満たす。</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-label">旋律</div>
+          <div class="flow-desc">刻まれる、時間という風景。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 5: 都市に、住まう。 ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">04</div>
+    <div class="content-title">都市に、住まう。</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        Staytousは、旅の通過点ではない。<br>
+        街の鼓動に触れ、都市の日常を呼吸する。<br>
+        ここを拠点に、境界のない暮らしを。
+      </p>
+      <div class="highlight-box">
+        <div class="hl-bar"></div>
+        <div class="hl-text">都市体験の拠点、<span>あるいは日常の延長。</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 6: 都市に住まう、という選択。 ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">05</div>
+    <div class="content-title">都市に住まう、という選択。</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <div class="two-col">
+        <div class="col">
+          <div class="metric">
+            <div class="num">1-10</div>
+            <div class="metric-label">極小の余白</div>
+            <div class="metric-desc">
+              都市の鼓動を、指先で触れる。
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="bar-item">
+            <div class="bar"></div>
+            <div class="bar-content">
+              <div class="bar-heading">密やかな密度。</div>
+              <div class="bar-desc">
+                研ぎ澄まされた空間に、<br>
+                都市の日常を纏う。<br>
+                泊まるという概念を越え、<br>
+                その街の一部になる体験を。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 7: 都市に、住まうように泊まる ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">06</div>
+    <div class="content-title">都市に、住まうように泊まる</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        客室の数ではなく、一室の密度を極める。<br>
+        空間、空気、音、そのすべてを研ぎ澄まし、<br>
+        都市での滞在をより深いものへ。
+      </p>
+      <div class="grid-2x2">
+        <div class="grid-cell">
+          <div class="cell-title">空間</div>
+          <div class="cell-desc">静寂と、余白。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">空気</div>
+          <div class="cell-desc">満たされる、静かな環境。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">音</div>
+          <div class="cell-desc">時間を編む、音の風景。</div>
+        </div>
+        <div class="grid-cell">
+          <div class="cell-title">体験</div>
+          <div class="cell-desc">深く、濃密な滞在。</div>
+        </div>
+      </div>
+      <div class="grid-footer">
+        <div class="gf-bar"></div>
+        <div class="gf-text">都市を住みこなす、その価値を。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 8: 都市に、命を灯す。 ============ -->
+<div class="page">
+  <div class="content-page">
+    <div class="page-num">07</div>
+    <div class="content-title">都市に、命を灯す。</div>
+    <div class="content-divider"></div>
+    <div class="content-body">
+      <p class="content-lead">
+        建築だけでは、場は完成しない。
+      </p>
+      <p class="content-lead">
+        そこに触れる人の感性が、<br>
+        都市の日常を文化へ変えていく。<br><br>
+        <strong style="font-weight: 400; color: var(--sumi);">泊まる、ではなく、住まうという時間を。</strong>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ PAGE 9: CLOSING ============ -->
+<div class="page">
+  <div class="closing">
+    <div class="closing-brand">Staytous</div>
+    <div class="closing-line"></div>
+    <div class="closing-pair">
+      <div class="pair-item">
+        <div class="pair-dot"></div>
+        <div class="pair-text">場を、整える。</div>
+      </div>
+      <div class="pair-item">
+        <div class="pair-dot"></div>
+        <div class="pair-text">自分を、整える。</div>
+      </div>
+    </div>
+    <p class="closing-statement">
+      都市に、泊まる。都市に、住まう。<br>
+      Staytous、その境界を溶かす新しい宿泊の美学。
+    </p>
+    <div class="closing-dot"></div>
+  </div>
+</div>
+
+
+</body>
+</html>
